@@ -1,19 +1,15 @@
 import express from "express";
-import { env } from "./globals/config.js";
-import RootRoute from "./routes/index.js";
-import { connectDB } from "./globals/mongodb.js";
+import { getEnv } from "./src/global/envConfig.js";
 import cors from "cors";
+import RootRouter from "./src/routes/index.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const PORT_DEFAULT = 3001;
-connectDB();
+app.use(`/api/${getEnv.VERSION}`, RootRouter);
 
-app.use(`/api/${env.VERSION}`, RootRoute);
-
-app.listen(env.PORT || PORT_DEFAULT, () => {
-  console.log(`Server listening on port ${env.PORT}`);
+app.listen(8000, () => {
+  console.log("Server is running on port 8000");
 });
