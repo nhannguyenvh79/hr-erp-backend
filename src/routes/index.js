@@ -1,9 +1,10 @@
 import { Router } from "express";
+import AuthRoute from "./auth/index.js";
+import EmployeeRoute from "./employee/index.js";
 
-const RootRouter = Router();
+const RootRoute = Router();
 
-RootRouter.get("/", (req, res) => {
-  res.send("Hello World");
-});
+RootRoute.use("/auth", AuthRoute);
+RootRoute.use("/employee", EmployeeRoute);
 
-export default RootRouter;
+export default RootRoute;
