@@ -6,10 +6,14 @@ export const createEmployee = async (data) => {
 
   const code = _id.toString().padStart(6, "0");
 
-  data.eCode = data.department + code;
-  data._id = _id;
+  data._id = data.department + code;
 
   const newEmployee = new Employee(data);
 
   return await newEmployee.save();
+};
+
+export const getEmployeeById = async (_id) => {
+  const employee = await Employee.findOne({ _id });
+  return employee;
 };

@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 import BaseSchema from "../BaseSchema.js";
 
 export const EmployeeSchema = new mongoose.Schema({
-  eCode: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,

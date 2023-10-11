@@ -15,3 +15,19 @@ export const createUser = async (data) => {
 
   return await newUser.save();
 };
+
+export const getUserById = async (_id) => {
+  const user = await User.findOne({ _id })
+    .populate({
+      path: "employee",
+      model: "Employee",
+      select: "gmail name image department position",
+    })
+    .select("-password");
+  return user;
+};
+
+export const getUserByEmployeeId = async (employeeId) => {
+  const user = await User.findOne({ employee: employeeId });
+  return user;
+};

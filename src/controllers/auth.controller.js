@@ -1,38 +1,69 @@
 import expressAsyncHandler from "express-async-handler";
 import { RESPONSE } from "../configs/constant/response.js";
-import { createUser } from "../services/mongoDB/auth.service.js";
-import User from "../models/general/user.model.js";
-import Employee from "../models/general/employee.model.js";
+import {
+  createUser,
+  getUserByEmployeeId,
+  getUserById,
+} from "../services/mongoDB/auth.service.js";
+import { comparePassword } from "../configs/bcrypt.config.js";
+import { jwtSign } from "../configs/jwt.config.js";
+import { getEmployeeById } from "../services/mongoDB/employee.service.js";
 
-export const login = expressAsyncHandler(async (req, res) => {});
+export const login = expressAsyncHandler(async (req, res) => {
+  const { employeeId, password } = req.body;
 
-export const getMe = expressAsyncHandler(async (req, res) => {});
+  const existUser = await getUserByEmployeeId(employeeId);
 
-export const register = expressAsyncHandler(async (req, res) => {
-  const { eCode, password, role } = req.body;
-
-  if (!eCode || !password || !role) {
-    throw new Error("Missing required field");
+  if (!existUser) {
+    throw new Error("User not found");
   }
 
-  const existEmployee = await Employee.findOne({
-    eCode,
-  });
+  const isMatch = await comparePassword(password, existUser.password);
+
+  if (!isMatch) {
+    throw new Error("Invalid password");
+  }
+
+  const payload = {
+    _id: existUser._id,
+    employee: existUser.employee,
+    role: existUser.role,
+  };
+
+  const jwt = await jwtSign(payload, 60);
+
+  res.send(RESPONSE(jwt, "Login Successfull!"));
+});
+
+export const getMe = expressAsyncHandler(async (req, res) => {
+  const { _id } = req.user;
+
+  const user = await getUserById(_id);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  res.send(RESPONSE(user, "Get Me Successfull!"));
+});
+
+export const register = expressAsyncHandler(async (req, res) => {
+  const { employeeId, password, role } = req.body;
+
+  const existEmployee = await getEmployeeById(employeeId);
 
   if (!existEmployee) {
     throw new Error("Employee not found");
   }
 
-  const existUser = await User.findOne({
-    eCode,
-  });
+  const existUser = await getUserByEmployeeId(employeeId);
 
   if (existUser) {
     throw new Error("User already exist");
   }
 
   const newUser = await createUser({
-    eCode,
+    employee: employeeId,
     password,
     role,
   });

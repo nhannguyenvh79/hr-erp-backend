@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { getMe } from "../../controllers/auth.controller.js";
-// import { jwtCheck } from "../../middlewares/jwt.js";
+import { checkJwt } from "../../middlewares/jwt.mdw.js";
 
 const MeRouter = Router();
 
-// MeRouter.use(jwtCheck);
+MeRouter.use(checkJwt);
 MeRouter.get("/", getMe);
 
 export default MeRouter;

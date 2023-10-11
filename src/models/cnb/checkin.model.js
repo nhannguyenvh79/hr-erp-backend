@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import BaseSchema from "../BaseSchema";
 
 const CheckinSchema = new mongoose.Schema({
-  eCode: {
+  employee: {
     type: String,
     required: true,
   },

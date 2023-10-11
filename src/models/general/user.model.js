@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import BaseSchema from "../BaseSchema.js";
 
 export const UserSchema = new mongoose.Schema({
-  eCode: {
+  employee: {
     type: String,
     required: true,
     ref: "Employee",

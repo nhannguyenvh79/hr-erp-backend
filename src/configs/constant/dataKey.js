@@ -13,7 +13,7 @@ export const SeqKey = {
 
 export const EmployeeKey = {
   ...BaseKey,
-  employeeCode: "eCode",
+  employee: "employee",
   name: "name",
   image: "image",
   phone: "phone",
@@ -35,7 +35,7 @@ export const EmployeeKey = {
 
 export const UserKey = {
   ...BaseKey,
-  eployeeCode: "eCode",
+  employee: "employee",
   password: "password",
   role: "role",
   projects: "projects",
@@ -133,7 +133,7 @@ export const CourseAppraisalKey = {
 
 export const CheckinKey = {
   ...BaseKey,
-  eCode: "eCode",
+  employee: "employee",
   checkin: "checkin",
   paidDayoff: "paidDayoff",
   notPaidDayoff: "notPaidDayoff",
