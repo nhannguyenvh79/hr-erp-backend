@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 import BaseSchema from "../BaseSchema.js";
+import { ObjectId } from "mongodb";
 
 export const UserSchema = new mongoose.Schema({
+  eCode: {
+    type: String,
+  },
   employee: {
     type: String,
     required: true,
@@ -14,6 +18,7 @@ export const UserSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
+    ref: "Role",
   },
   projects: [{ type: String, ref: "Project" }],
 });

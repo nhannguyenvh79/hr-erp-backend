@@ -6,6 +6,10 @@ export const EmployeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  eCode: {
+    type: String,
+    required: true,
+  },
   image: {
     type: String,
     default: "",

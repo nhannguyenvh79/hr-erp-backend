@@ -2,17 +2,20 @@ import expressAsyncHandler from "express-async-handler";
 import { RESPONSE } from "../configs/constant/response.js";
 import {
   createUser,
-  getUserByEmployeeId,
+  getUserByECode,
   getUserById,
 } from "../services/mongoDB/auth.service.js";
 import { comparePassword } from "../configs/bcrypt.config.js";
 import { jwtSign } from "../configs/jwt.config.js";
-import { getEmployeeById } from "../services/mongoDB/employee.service.js";
+import {
+  getEmployeeByEcode,
+  getEmployeeById,
+} from "../services/mongoDB/employee.service.js";
 
 export const login = expressAsyncHandler(async (req, res) => {
-  const { employeeId, password } = req.body;
+  const { eCode, password } = req.body;
 
-  const existUser = await getUserByEmployeeId(employeeId);
+  const existUser = await getUserByECode(eCode);
 
   if (!existUser) {
     throw new Error("User not found");
@@ -48,22 +51,23 @@ export const getMe = expressAsyncHandler(async (req, res) => {
 });
 
 export const register = expressAsyncHandler(async (req, res) => {
-  const { employeeId, password, role } = req.body;
+  const { eCode, password, role } = req.body;
 
-  const existEmployee = await getEmployeeById(employeeId);
+  const existEmployee = await getEmployeeByEcode(eCode);
 
   if (!existEmployee) {
     throw new Error("Employee not found");
   }
 
-  const existUser = await getUserByEmployeeId(employeeId);
+  const existUser = await getUserByECode(eCode);
 
   if (existUser) {
     throw new Error("User already exist");
   }
 
   const newUser = await createUser({
-    employee: employeeId,
+    eCode,
+    employee: existEmployee._id,
     password,
     role,
   });

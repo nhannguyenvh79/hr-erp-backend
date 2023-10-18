@@ -5,6 +5,8 @@ import { registerSchema } from "../../validations/auth/register.validation.js";
 
 const RegisterRouter = Router();
 
+//check jwt
+//checkrole: authorities.includes("register")
 RegisterRouter.post("/", validate(registerSchema), register);
 
 export default RegisterRouter;
