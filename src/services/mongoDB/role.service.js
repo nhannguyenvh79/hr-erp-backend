@@ -4,11 +4,8 @@ import { updateSeq } from "./seq.service.js";
 
 export const createRole = async (data) => {
   const seq = await updateSeq("Role");
-  const _id = getUuid();
-  const newRole = await Role.create({
-    _id,
-    ...data,
-  });
+
+  const newRole = await Role.create(data);
   return newRole;
 };
 

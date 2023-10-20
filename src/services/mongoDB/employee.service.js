@@ -8,9 +8,6 @@ export const createEmployee = async (data) => {
   const code = seq.toString().padStart(6, "0");
   data.eCode = data.department + code;
 
-  const _id = getUuid();
-  data._id = _id;
-
   const newEmployee = new Employee(data);
 
   return await newEmployee.save();

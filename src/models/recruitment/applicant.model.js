@@ -3,7 +3,7 @@ import BaseSchema from "../BaseSchema";
 
 const ApplicantSchema = new mongoose.Schema({
   jobId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Job",
   },

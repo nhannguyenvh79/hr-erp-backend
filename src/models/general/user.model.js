@@ -7,7 +7,7 @@ export const UserSchema = new mongoose.Schema({
     type: String,
   },
   employee: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Employee",
   },
@@ -16,7 +16,7 @@ export const UserSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Role",
   },

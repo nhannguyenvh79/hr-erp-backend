@@ -14,19 +14,19 @@ const NewsSchema = new mongoose.Schema({
     type: String,
   },
   department: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "Department",
   },
   like: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
   comments: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
     },
   ],

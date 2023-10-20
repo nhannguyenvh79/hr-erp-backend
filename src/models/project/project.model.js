@@ -11,7 +11,7 @@ const ProjectSchema = new mongoose.Schema({
     required: true,
   },
   manager: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
@@ -35,12 +35,12 @@ const ProjectSchema = new mongoose.Schema({
   },
   department: [
     {
-      type: [String],
+      type: [mongoose.Schema.Types.ObjectId],
       ref: "Department",
     },
   ],
   members: {
-    type: [{ type: String, ref: "User" }],
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   },
 
   tasks: {

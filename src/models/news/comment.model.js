@@ -3,13 +3,13 @@ import BaseSchema from "../BaseSchema";
 
 const CommentSchema = new mongoose.Schema({
   newsId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "News",
   },
 
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
@@ -21,14 +21,14 @@ const CommentSchema = new mongoose.Schema({
 
   like: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],
 
   childComments: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "ChildComment",
     },

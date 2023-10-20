@@ -33,9 +33,13 @@ export const login = expressAsyncHandler(async (req, res) => {
     role: existUser.role,
   };
 
-  const jwt = await jwtSign(payload, 60);
+  const jwt = await jwtSign(payload, 1);
 
-  res.send(RESPONSE(jwt, "Login Successfull!"));
+  const dataResponse = {
+    accessToken: jwt,
+  };
+
+  res.send(RESPONSE(dataResponse, "Login Successfull!"));
 });
 
 export const getMe = expressAsyncHandler(async (req, res) => {

@@ -3,7 +3,7 @@ import BaseSchema from "../BaseSchema";
 
 const CourseAppraisalSchema = new mongoose.Schema({
   courseId: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,
     ref: "Course",
   },

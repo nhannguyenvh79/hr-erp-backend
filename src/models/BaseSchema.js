@@ -3,11 +3,7 @@ import { BaseKey } from "../configs/constant/dataKey.js";
 
 const BaseSchema = new mongoose.Schema(
   {
-    [BaseKey.id]: {
-      type: String,
-      required: true,
-    },
-    [BaseKey.active]: {
+    active: {
       type: Boolean,
     },
   },

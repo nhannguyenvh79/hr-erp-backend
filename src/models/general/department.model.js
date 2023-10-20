@@ -12,7 +12,7 @@ const DepartmentSchema = new mongoose.Schema({
   },
   employees: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Employee",
     },
   ],

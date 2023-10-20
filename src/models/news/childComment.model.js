@@ -3,7 +3,7 @@ import BaseSchema from "../BaseSchema";
 
 const ChildCommentSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "User",
   },
@@ -13,7 +13,7 @@ const ChildCommentSchema = new mongoose.Schema({
   },
   like: [
     {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
   ],

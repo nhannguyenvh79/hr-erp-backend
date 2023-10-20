@@ -5,11 +5,9 @@ export const updateSeq = async (collectionName) => {
   let existSeq = await Seq.findOne({ name: collectionName });
 
   if (!existSeq) {
-    const _idSeq = getUuid();
     existSeq = await Seq.create({
       name: collectionName,
       seq: 1,
-      _id: _idSeq,
     });
     return existSeq.seq;
   }

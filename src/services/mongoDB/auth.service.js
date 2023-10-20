@@ -7,10 +7,7 @@ export const createUser = async (data) => {
   const seq = await updateSeq("User");
   const hashedPassword = await hashPassword(data.password);
 
-  const _id = getUuid();
-
   const newUser = new User({
-    _id,
     ...data,
     password: hashedPassword,
   });
