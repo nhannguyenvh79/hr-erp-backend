@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import { getEnv } from "./env.config.js";
 
-const AccessTokenKey = getEnv.PRIVATEKEY;
-const RefreshTokenKey = getEnv.REFRESH_PRIVATEKEY;
+const AccessTokenKey = getEnv("PRIVATEKEY");
+const RefreshTokenKey = getEnv("REFRESH_PRIVATEKEY");
 
 export const generateAccessToken = (data, time) => {
   return jwt.sign(data, AccessTokenKey, {
-    expiresIn: time * 60 || "1h",
+    expiresIn: time * 60 || "1d",
     algorithm: "HS256",
   });
 };
@@ -17,7 +17,7 @@ export const verifyAccessToken = (token) => {
 
 export const generateRefreshToken = (data, time) => {
   return jwt.sign(data, RefreshTokenKey, {
-    expiresIn: time * 60 || "1h",
+    expiresIn: time * 60 || "1d",
     algorithm: "HS256",
   });
 };

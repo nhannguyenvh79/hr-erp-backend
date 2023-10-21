@@ -8,6 +8,7 @@ export const create = expressAsyncHandler(async (req, res) => {
   const existRole = await getRoleByName(data.name);
 
   if (existRole) {
+    res.status(400);
     throw new Error("Role already exist");
   }
 

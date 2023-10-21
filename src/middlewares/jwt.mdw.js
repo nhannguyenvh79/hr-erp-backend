@@ -5,12 +5,14 @@ export const checkJwt = asyncHandler((req, res, next) => {
   const token = req.headers["x-access-token"];
 
   if (!token) {
+    res.status(400);
     throw new Error("Token not found");
   }
 
   const decode = verifyAccessToken(token);
 
   if (!decode) {
+    res.status(400);
     throw new Error("Invalid token");
   }
 

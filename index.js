@@ -7,18 +7,22 @@ import { handleError } from "./src/middlewares/handleError.mdw.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
+const corsConfig = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
 
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsConfig));
 app.use(express.json());
 
 connectDB();
 
-app.use(`/api/${getEnv.VERSION}`, RootRoute);
+app.use(`/api/${getEnv("VERSION")}`, RootRoute);
 
 app.use(handleError);
 
 const PORT = 8000;
-app.listen(getEnv.PORT || PORT, () => {
+app.listen(getEnv("PORT") || PORT, () => {
   console.log("Server is running on port 8000");
 });

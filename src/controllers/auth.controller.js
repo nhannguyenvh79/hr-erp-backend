@@ -4,6 +4,7 @@ import {
   createUser,
   getUserByECode,
   getUserById,
+  updateUserById,
 } from "../services/mongoDB/auth.service.js";
 import { comparePassword } from "../configs/bcrypt.config.js";
 import {
@@ -22,12 +23,14 @@ export const loginController = expressAsyncHandler(async (req, res) => {
   const existUser = await getUserByECode(eCode);
 
   if (!existUser) {
+    res.status(400);
     throw new Error("User not found");
   }
 
   const isMatch = await comparePassword(password, existUser.password);
 
   if (!isMatch) {
+    res.status(400);
     throw new Error("Invalid password");
   }
 
@@ -38,11 +41,14 @@ export const loginController = expressAsyncHandler(async (req, res) => {
   };
 
   const accessToken = await generateAccessToken(payload, 0.5);
-  const refreshToken = await generateRefreshToken(payload, 5);
+  const refreshToken = await generateRefreshToken(payload);
 
-  res.cookie("refreshToken", refreshToken, {
+  res.cookie("refresh-token", refreshToken, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
+    path: "/",
+    secure: true,
+    sameSite: "None",
   });
 
   const dataResponse = {
@@ -58,6 +64,7 @@ export const getMeController = expressAsyncHandler(async (req, res) => {
   const user = await getUserById(_id);
 
   if (!user) {
+    res.status(400);
     throw new Error("User not found");
   }
 
@@ -70,12 +77,14 @@ export const registerController = expressAsyncHandler(async (req, res) => {
   const existEmployee = await getEmployeeByEcode(eCode);
 
   if (!existEmployee) {
+    res.status(400);
     throw new Error("Employee not found");
   }
 
   const existUser = await getUserByECode(eCode);
 
   if (existUser) {
+    res.status(400);
     throw new Error("User already exist");
   }
 
@@ -90,35 +99,47 @@ export const registerController = expressAsyncHandler(async (req, res) => {
 });
 
 export const refreshTokenController = expressAsyncHandler(async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const refreshToken = req.cookies["refresh-token"];
 
   if (!refreshToken) {
-    res.status(401);
+    res.status(400);
     throw new Error("Refresh token not found");
   }
 
   const refreshDecode = await verifyRefreshToken(refreshToken);
 
   if (!refreshDecode) {
-    res.status(401);
+    res.status(400);
     throw new Error("Invalid refresh token");
   }
 
-  const newPayload = {
-    _id: refreshDecode._id,
-    employee: refreshDecode.employee,
-    role: refreshDecode.role,
+  const existUser = await getUserById(refreshDecode._id);
+
+  if (!existUser) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+
+  const payload = {
+    _id: existUser._id,
+    employee: existUser.employee,
+    role: existUser.role,
   };
 
-  const newAccessToken = await generateAccessToken(newPayload, 0.5);
-  const newRefreshToken = await generateRefreshToken(newPayload, 5);
+  const newAccessToken = await generateAccessToken(payload, 0.5);
+  const newRefreshToken = await generateRefreshToken(payload);
 
-  res.cookie("refreshToken", newRefreshToken, {
+  res.cookie("refresh-token", newRefreshToken, {
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000,
+    path: "/",
+    secure: true,
+    sameSite: "None",
   });
 
-  res.send(
-    RESPONSE({ accessToken: newAccessToken }, "Refresh Token Successfull!")
-  );
+  const dataResponse = {
+    accessToken: newAccessToken,
+  };
+
+  res.send(RESPONSE(dataResponse, "Refresh Token Successfull!"));
 });

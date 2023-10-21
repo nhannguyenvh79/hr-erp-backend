@@ -11,6 +11,7 @@ export const create = asyncHandler(async (req, res) => {
   });
 
   if (existEmployee) {
+    res.status(400);
     throw new Error("Employee already exist");
   }
 

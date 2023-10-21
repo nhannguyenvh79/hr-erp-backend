@@ -1,3 +1,5 @@
 import "dotenv/config";
 
-export const getEnv = process.env;
+export const getEnv = (key) => {
+  return process.env[key] || "";
+};

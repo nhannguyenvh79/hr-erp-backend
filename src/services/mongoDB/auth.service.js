@@ -30,6 +30,39 @@ export const getUserById = async (_id) => {
   return user;
 };
 
+export const updateUserById = async (_id, data) => {
+  const existuser = await User.findOne({ _id });
+
+  if (!existuser) {
+    res.status(400);
+    throw new Error("User not found");
+  }
+
+  if (data.eCode) {
+    existuser.eCode = data.eCode;
+  }
+  if (data.password) {
+    existuser.password = await hashPassword(data.password);
+  }
+  if (data.role) {
+    existuser.role = data.role;
+  }
+  if (data.employee) {
+    existuser.employee = data.employee;
+  }
+  if (data.projects) {
+    existuser.projects = data.projects;
+  }
+  if (data.active) {
+    existuser.active = data.active;
+  }
+  if (data.refreshToken) {
+    existuser.refreshToken = data.refreshToken;
+  }
+
+  return await existuser.save();
+};
+
 export const getUserByECode = async (eCode) => {
   const user = await User.findOne({ eCode });
   return user;
