@@ -4,9 +4,11 @@ import cors from "cors";
 import RootRoute from "./src/routes/index.js";
 import { connectDB } from "./src/configs/mongoose.js";
 import { handleError } from "./src/middlewares/handleError.mdw.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(cors());
 app.use(express.json());
 

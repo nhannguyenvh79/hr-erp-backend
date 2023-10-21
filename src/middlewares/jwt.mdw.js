@@ -1,4 +1,4 @@
-import { jwtVerify } from "../configs/jwt.config.js";
+import { verifyAccessToken } from "../configs/jwt.config.js";
 import asyncHandler from "express-async-handler";
 
 export const checkJwt = asyncHandler((req, res, next) => {
@@ -8,7 +8,7 @@ export const checkJwt = asyncHandler((req, res, next) => {
     throw new Error("Token not found");
   }
 
-  const decode = jwtVerify(token);
+  const decode = verifyAccessToken(token);
 
   if (!decode) {
     throw new Error("Invalid token");
