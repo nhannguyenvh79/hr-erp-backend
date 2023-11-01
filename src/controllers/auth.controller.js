@@ -4,6 +4,7 @@ import {
   createUser,
   getUserByECode,
   getUserById,
+  getUserByUserName,
   updateUserById,
 } from "../services/mongoDB/auth.service.js";
 import { comparePassword } from "../configs/bcrypt.config.js";
@@ -20,7 +21,8 @@ import {
 export const loginController = expressAsyncHandler(async (req, res) => {
   const { eCode, password } = req.body;
 
-  const existUser = await getUserByECode(eCode);
+  const existUser =
+    (await getUserByECode(eCode)) || (await getUserByUserName(eCode));
 
   if (!existUser) {
     res.status(400);

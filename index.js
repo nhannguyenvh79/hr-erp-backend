@@ -7,8 +7,15 @@ import { handleError } from "./src/middlewares/handleError.mdw.js";
 import cookieParser from "cookie-parser";
 
 const app = express();
+const whitelist = ["http://localhost:3000"];
 const corsConfig = {
-  origin: "http://localhost:3000",
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 };
 

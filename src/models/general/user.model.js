@@ -19,6 +19,10 @@ export const UserSchema = new mongoose.Schema({
     required: true,
     ref: "Role",
   },
+  username: {
+    type: String,
+    required: true,
+  },
   projects: [{ type: String, ref: "Project" }],
 });
 

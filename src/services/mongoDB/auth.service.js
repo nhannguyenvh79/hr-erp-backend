@@ -67,3 +67,7 @@ export const getUserByECode = async (eCode) => {
   const user = await User.findOne({ eCode });
   return user;
 };
+export const getUserByUserName = async (username) => {
+  const user = await User.findOne({ username });
+  return user;
+};
